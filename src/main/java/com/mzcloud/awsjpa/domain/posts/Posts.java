@@ -1,18 +1,17 @@
 package com.mzcloud.awsjpa.domain.posts;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.mzcloud.awsjpa.domain.BaseTimeEntity;
+import lombok.*;
 
 import javax.persistence.*;
 
 // 클래스 내 모든 필드의 getter메소드 자동 생성
 @NoArgsConstructor
 @Getter
+@Setter
 // 기본 생성자(Constructor) 자동 추가
 @Entity // 테이블과 링크될 클래스임을 나타낸다. 클래스의 카멜케이스 이름을 스네이크케이스 테이블로 이름을 매칭한다. (EX. SalesManager.java -> sales_manager table)
-public class Posts {
+public class Posts extends BaseTimeEntity {
 
     @Id // 해당 테이블의 PK 필드를 나타낸다.
     @GeneratedValue(strategy = GenerationType.IDENTITY)

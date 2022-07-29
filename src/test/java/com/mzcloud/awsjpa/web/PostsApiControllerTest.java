@@ -64,6 +64,7 @@ public class PostsApiControllerTest {
     public void posts_update() {
 
         Posts posts = postsRepository.save(Posts.builder().title("title").content("content").author("author").build());
+        System.out.println("\n==// posts : " + posts.toString());
 
         Long updateId = posts.getId();
         String expectedTitle =  "title2";
@@ -94,31 +95,44 @@ public class PostsApiControllerTest {
         String mockContent = "mock_content";
         String mockAuthor = "mock_author";
 
-        PostsRepository mockRepository = Mockito.mock(PostsRepository.class);
-        Posts posts = mockRepository.save(Posts.builder().title(mockTitle).content(mockContent).author(mockAuthor).build());
+        // mock 객체 생성
+        PostsRepository mockPostRepository = Mockito.mock(PostsRepository.class);
+
+        System.out.println("\n==// mockPostRepository : " + mockPostRepository.toString());
+
+        // save data
+//        Posts posts = mockPostRepository.save(Posts.builder().title(mockTitle).content(mockContent).author(mockAuthor).build());
+        Posts posts = new Posts();
+        posts.setId(66L);
+        posts.setTitle(mockTitle);
+        posts.setContent(mockContent);
+        posts.setAuthor(mockAuthor);
+
+        Mockito.when(posts.getTitle()).thenReturn(mockTitle);
+        System.out.println("0. ==// posts : " + posts.toString());
 
         Long updateId = posts.getId();
-        PostsUpdateRequestDto requestDto = PostsUpdateRequestDto.builder().title("mock_title").content("mock_content").build();
+        System.out.println("1. ==// updateId : " + updateId);
 
+
+        // build data
+        PostsUpdateRequestDto requestDto = PostsUpdateRequestDto.builder().title("mock_title").content("mock_content").build();
         String url = "http://localhost:" + port + "/api/v1/posts/" + updateId;
 
         HttpEntity<PostsUpdateRequestDto> requestDtoHttpEntity = new HttpEntity<>(requestDto);
 
         ResponseEntity<Long> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestDtoHttpEntity, Long.class);
 
-        Mockito.when(responseEntity.getStatusCode()).thenReturn(HttpStatus.OK);
 
+
+/*
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(responseEntity.getBody()).isGreaterThan(0L);
 
         List<Posts> postsList = postsRepository.findAll();
         assertThat(postsList.get(0).getTitle()).isEqualTo(mockTitle);
         assertThat(postsList.get(0).getContent()).isEqualTo(mockContent);
-
-
-
-
-
+*/
 
 
     }
